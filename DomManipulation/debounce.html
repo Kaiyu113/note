@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button>Debounce</button>
+    <script>
+      const button = document.getElementsByTagName("button");
+      function b() {
+        console.log("b");
+      }
+
+      function buttonCall() {
+        console.log("HI");
+      }
+      function debounce(fn) {
+        let timer = null;
+        return function () {
+          clearTimeout(timer);
+          timer = setTimeout(function () {
+            fn();
+          }, 1000);
+        };
+      }
+      function throttle(fn) {
+        let wait = false;
+        return function () {
+          if (wait) {
+            return;
+          }
+          fn();
+          wait = true;
+          setTimeout(function () {
+            wait = false;
+          }, 1000);
+        };
+      }
+      //button[0].onclick = debounce(b);
+      button[0].onclick = throttle(b);
+    </script>
+  </body>
+</html>

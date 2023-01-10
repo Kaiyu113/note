@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div id="timer"></div>
+    <script>
+      var timer = document.getElementById("timer");
+      var birthday = new Date("2022-11-30 00:00:00");
+      var flag = true;
+      var intervalIndex = setInterval(() => {
+        var now = new Date();
+        var totalMS = birthday - now;
+        if (totalMS < 0) {
+          clearInterval(intervalIndex);
+          timer.innerText = "Happy Birthday";
+          intervalIndex = null;
+        } else {
+          var h = Math.floor(totalMS / 1000 / 60 / 60);
+          h = h < 10 ? "0" + h : h;
+          var m = Math.floor((totalMS - h * 1000 * 60 * 60) / 1000 / 60);
+          m = m < 10 ? "0" + m : m;
+          var s = Math.floor(
+            (totalMS - h * 1000 * 60 * 60 - m * 1000 * 60) / 1000
+          );
+          s = s < 10 ? "0" + s : s;
+          flag = !flag;
+
+          var colon = flag ? ":" : " ";
+          timer.innerText = h + colon + m + colon + s;
+        }
+
+        //console.log(totalMS);
+      }, 1000);
+    </script>
+  </body>
+</html>

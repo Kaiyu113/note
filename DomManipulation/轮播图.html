@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button onclick="left()">left</button>
+    <ul class="nav">
+      <li class="myli" onclick="displaySelect()">1</li>
+      <li class="myli" onclick="displaySelect()">2</li>
+      <li class="myli" onclick="displaySelect()">3</li>
+    </ul>
+    <button onclick="right()">right</button>
+
+    <script language="JavaScript">
+      const arr = [1, 2, 3, 4, 5];
+      const myli = document.getElementsByClassName("myli");
+      console.log(myli);
+      let arrIndex = 0;
+
+      function right() {
+        if (arrIndex < arr.length - 3) {
+          arrIndex++;
+          myli[0].innerHTML = arr[arrIndex];
+          myli[1].innerHTML = arr[arrIndex + 1];
+          myli[2].innerHTML = arr[arrIndex + 2];
+        }
+      }
+      function left() {
+        if (arrIndex > 0) {
+          arrIndex--;
+          myli[0].innerHTML = arr[arrIndex];
+          myli[1].innerHTML = arr[arrIndex + 1];
+          myli[2].innerHTML = arr[arrIndex + 2];
+        }
+      }
+      function displaySelect() {}
+    </script>
+  </body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .tab {
+        width: 120px;
+        height: 50px;
+        text-align: center;
+        line-height: 50px;
+        float: left;
+        background-color: antiquewhite;
+        margin-right: 1px;
+      }
+      .cont {
+        width: 484px;
+        height: 300px;
+        background-color: aquamarine;
+        display: none;
+      }
+      .act {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="tabs">
+      <div class="tab">体育新闻</div>
+      <div class="tab">财经新闻</div>
+      <div class="tab">娱乐新闻</div>
+      <div class="tab">疫情新闻</div>
+      <div style="clear: both"></div>
+    </div>
+    <div id="conts">
+      <div class="cont act">
+        <div>体育新闻1</div>
+        <div>体育新闻2</div>
+        <div>体育新闻3</div>
+      </div>
+      <div class="cont">
+        <div>财经新闻1</div>
+        <div>财经新闻2</div>
+        <div>财经新闻3</div>
+      </div>
+      <div class="cont">
+        <div>娱乐新闻1</div>
+        <div>娱乐新闻2</div>
+        <div>娱乐新闻3</div>
+      </div>
+      <div class="cont">
+        <div>疫情新闻1</div>
+        <div>疫情新闻2</div>
+        <div>疫情新闻3</div>
+      </div>
+      <div style="clear: both"></div>
+    </div>
+    <script>
+      const tabs = document.getElementsByClassName("tab");
+      const cons = document.getElementsByClassName("cont");
+      for (let i = 0; i < tabs.length; i++) {
+        tabs[i].onclick = () => {
+          for (let k = 0; k < cons.length; k++) {
+            tabs[k].style.backgroundColor = "antiquewhite";
+          }
+          tabs[i].style.backgroundColor = "aquamarine";
+          cons[i].style.display = "block";
+          for (let j = 0; j < cons.length; j++) {
+            cons[j].style.display = "none";
+          }
+          cons[i].style.display = "block";
+        };
+      }
+    </script>
+  </body>
+</html>

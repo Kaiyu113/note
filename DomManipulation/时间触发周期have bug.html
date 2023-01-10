@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .d1 {
+        background-color: green;
+        width: 200px;
+        height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .d2 {
+        background-color: red;
+        width: 100px;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .d3 {
+        background-color: yellow;
+        width: 50px;
+        height: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="d1">
+      <!-- <div class="d2">
+        <div class="d3"></div>
+      </div> -->
+    </div>
+    <script>
+      var getDiv = document.getElementsByTagName("div");
+      //console.log(getDiv);
+
+      // for (var i = 0; i < getDiv.length; i++) {
+      //   //eventbubbling
+      //   getDiv[i].onclick = function () {
+      //     this.style.background = "black";
+      //     alert(this.className);
+      //     this.style.background = "";
+      //   };
+      //   //eventCapturing
+      //   // getDiv[i].addEventListener(
+      //   //   "click",
+      //   //   function () {
+      //   //     this.style.background = "black";
+      //   //     alert(this.className);
+      //   //     this.style.background = "";
+      //   //   },
+      //   //   true
+      //   // );
+      // }
+      // for (var i = 0; i < getDiv.length; i++) {
+      //   getDiv[i].onclick = function (e) {
+
+      //     console.log(e.target.className);
+      //     //阻止冒泡
+      //     e.stopPropagation();
+      //   };
+      // }
+      //event delegate apply1
+      // getDiv[0].onclick = function (e) {
+      //   console.log(e.target.className);
+      // };
+      //event delegate apply2//when we need to add element after the add a event
+      getDiv[0].onclick = function (e) {
+        console.log(e.target.className);
+      };
+      const div = document.createElement("div");
+      div.className = "d2";
+      getDiv[0].append(div);
+    </script>
+  </body>
+</html>

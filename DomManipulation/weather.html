@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" />
+    <p>current</p>
+    <p id="current"></p>
+    <p>forecast</p>
+    <div id="forecast"></div>
+    <script>
+      const input = document.getElementsByTagName("input");
+      const current = document.getElementById("current");
+      const forecast = document.getElementById("forecast");
+      var xmlhttp = new XMLHttpRequest();
+      input[0].onblur = function (e) {
+        forecast.innerHTML = "";
+        current.innerText = "";
+        xmlhttp.open(
+          "get",
+          `http://api.weatherapi.com/v1/forecast.json?key=bd2f5837fb1f420fabf210531221512&q=${e.target.value}&days=4`,
+          true
+        );
+        xmlhttp.send(null);
+        xmlhttp.onreadystatechange = function () {
+          if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            //接受数据
+            let data = JSON.parse(xmlhttp.responseText);
+            console.log(data);
+            current.innerText = `${data.location.name}'s humidity is ${data.current.humidiy}, and the temp is ${data.current.temp_c}`;
+            //loop the forecast weather
+            data.forecast.forecastday.forEach((i) => {
+              console.log(i);
+              const ptag = document.createElement("p");
+              console.log(forecast);
+              forecast.appendChild(ptag);
+              ptag.innerHTML = `${i.date}'s humidity is`;
+            });
+          }
+        };
+      };
+    </script>
+  </body>
+</html>
