@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!--
+    center item
+        flexbox
+             父元素
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;//必须得加上height
+             子元素
+            宽高
+        margin子元素(水平居中/上下会被margin collapse,可以使用out of document flow去解决 margin collapse)
+            margin: auto 
+        transfrom(会脱离文档流)
+            position: absolute;//把position设置为absolute；使其脱离文档流
+            //把位置放在中间
+            top: 50%;
+            left: 50%;
+            把element的中心点放在中间
+            transform: translate(-50%, -50%);
+        硬算
+     margin collapse
+         the top and bottom margin of blocks will combine into a single margin whose size is the largest of the individual margin(or just one of it if they are equal)
+         when no content separating parent and descendants, the margin top and bottom will collapse, The collapsed margin ends up outside the parent.
+         you can use border, padding, inline part, block formatting context
+         floating & absolute positioned never collapse
+     BFC(Block formatting context)
+         is a rendering rule. Elements with BFC attributes can be thought of as isolated containers in which the elements in the container don't affect the outer elements layout
+         bfc can prevents margins collapsing //在外面包一层<p> ｜｜ 使用overflow: auto放在父元素
+         bfc stops content wrapping floats. //使用overflow: auto.放在父元素，父元素形成isolated container，里面的element不会影响外面的元素
+         //放在子元素，子元素形成isolated container，里面的element不会影响外面的元素
+     Pseudo-classes
+         A pseudo-class is a selector that selects elements that are in a specific state, consists of a colon (:) followed by the pseudo-class name 
+         selector:pseudo class{
+         property: value; 
+         }
+         :hover
+         :active
+         :first-child
+         :invalid
+         :focus
+     Pseudo-element
+         A CSS pseudo-element is used to style specified parts of an element.
+         selector::pseudo-element {
+         property: value;
+         }
+         ::after
+         ::before
+         ::first-letter
+         ::first-line
+     position:
+         absolute: 
+             An element with position: absolute; is positioned relative to the nearest positioned ancestor
+             Note: Absolute positioned elements are removed from the normal flow, and can overlap elements.
+             if an absolute positioned element has no positioned ancestors, it uses the document body, and moves along with page scrolling.
+         fixed:
+             An element with position: fixed; is positioned relative to the viewport, which means it always stays in the same place even if the page is scrolled. 
+             Note: fixed positioned elements are removed from the normal flow, and can overlap elements.
+         relative:
+             An element with position: relative; is positioned relative to its normal position.
+     removed the element from the normal flow
+         float:left;
+         position:absolute;
+         posotion:fix
+
+         
+-->
+  </body>
+</html>

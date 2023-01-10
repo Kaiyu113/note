@@ -1,0 +1,686 @@
+变量/js
+<!-- 
+    JS
+声明变量 命名
+     var a
+     赋值
+     a=10
+     从右到左读赋值语句
+     变量提升：自动提升到作用域的最顶部
+     对于给未声明的变量赋值，js会在全局作用域给这个变量申明
+     var a=[1,2,3]
+     var b=a //引用传递 复制的是一个指针
+     面向对象语言：java javascript
+         使用遥控器，面向对象编程：不需要知道过程和原理，通过调用现成的方法去解决某一件事情
+         难点：判断用什么对象和方法去解决一个问题，如何搭配//背所有的方法和对象去解决什么问题，背内置对象
+     面向过程：需要知道过程
+
+事件循环：
+     异步：把当前事件循环的micro走完，才能开始下轮事件循环
+         宏任务macro-task: 整体js代码 setTimeout setInterval
+         微任务Micro-task:promise.then nexTick
+     stack:先进后出
+     heap:先进先出
+-->
+数据类型/原始/引用
+<!-- 
+     原始数据类型：数据直接存在变量本地，栈里
+         number
+         string
+             string[index]//取字母
+         boolean 
+             条件判断中，只有以下六种算 false: false 0 undefined null "" NaN ''(empty string) -0 0n(BigInt(0))
+         undefine 自动初始化变量
+         null 空对象指针 //也是一个指针，但是堆中没有这个指针的数据。
+             主动释放对象：释放不想用的对象内存//对象名=null/提高性能
+     类型转换：
+              显式类型转换: toString
+              隐式类型转换： 
+                 1.任何数据类型与字符串做+，自动转换字符串
+                 2.number和boolean运算的时候 true会转为1 false转为0
+     引用数据类型： 数据不存在变量本地，存在堆里，栈里只存指针（地址值）用于找到堆里的
+     js里一切皆对象，arr也是对象/特殊对象。typeof arr 会是object，函数也是对象
+         Array:多个数据的集合
+             没有数据类型限制
+             没有数量限制
+             每个数据都有index
+             Array methods:
+                 Array[index] //取值
+                 Array[index]="newData" //给index存新值 or 如果不存在的话就创建
+                     浅复制深复制ex：
+                     var a=[1,2,3]
+                     var b=a //浅复制，仅复制指针
+                 Array.length:返回数组长度
+                 for loop 循环数组
+         Object: 多个数据的集合
+             {name：值}
+             没有数据类型限制（值）
+             没有数量限制
+             对象名字只能是字符串,不加引号js也会自动帮你加
+             自定义对象
+             内置对象：程序中写好的对象，可以直接调用
+                 比如：arr.length/console.log()//log是console的key
+                 js是面向对象语言
+             Object methods:
+                 Object.属性名 //取值
+                     Object?.key//With the optional chaining operator ?., we no longer have to explicitly check whether the deeper nested values are valid or not. If we're trying to access a property on an undefined or null value (nullish), the expression short-circuits and returns undefined.
+                         if key is nullish, will return undefine instead of Reference Error 
+                     Object.属性名=新值//改值 or 如果不存在的话就创建
+                 delete Object.属性名//删除
+                 [属性名]：“值” //如果属性名是变量的话写[]
+                     const a = "carName"
+                     const car={
+                        [a]:"bmw",
+                        price:30000
+                     }   
+                 for(let key in objecName){
+                    console.log(key)
+                 } 
+                    //循环对象
+-->
+运算符：
+<!-- 
+        表达式（expression）：纯运算符连接的,表达式和值都是等效的
+　　　1.算数运算符  + - * / %（取余）++（自增并赋值）-- += -=
+　　　　　++/--：
+　　　　　　　1.单独使用：放前放后都一样
+　　　　　　　2.非单独使用：（b=++a）
+　　　　　　　前++：先赋值，在参与运算
+　　　　　　　后++：先运算后赋值
+
+　　　　　　　　　var n=3　　
+　　　　　　　　　console.log(n++ + ++n + n++) //13
+　　　　　　　　　3+5+5
+　　　　　　　　　console.log(n)//6 
+     2.赋值运算符 = += -= *= /= %=
+        +=/-=： 
+            先+数值在赋值
+            var a=1
+            a+=5//a=a+5
+     3.字符串连接运算符 + （隐式类型转换）
+        任何数据类型与字符串做+，结果一定是字符串拼接（会发生隐式类型转换）
+     4.关系运算符：< > >= <= == === != !==
+        == != 不严格（不看类型：隐式类型转换）） === !==严格
+        不能连着写 a<b<c
+     4.逻辑运算符 && || !
+             the || operator, we can return the first truthy operand. If all values are falsy, the last operand gets returned.
+        and operator / or operator / 取反
+        && 优先级高于 ||
+             1.只要||前为false 后面无论是什么都反回后面的值
+             2.只要||前为true 后面无论是什么都反回前面的值
+             2.只要&&前为true 后面无论是什么都反回后面的值
+             2.只要&&前为false 后面无论是什么都反回前面的值
+     4.三目（元）运算符   condition ? whentrue : whenfalse
+     5.typeof 检测数据类型
+-->
+内置对象/RegExp正则表达式
+<!-- 
+    1.String //字符串不容更改，只能从心赋值
+         length
+         toUpperCase()//转大写，改完需要存新值。不会更改原来字符串
+         toLowerCase()//转小写
+         substring(startindex,endindex)//截取字符串，含头不含尾 只有一个index的话就是从start截到末尾
+         slice()//同上，原本是用来截数组的
+         indexOf("str")//查找关键字的index 默认只找第一个/找不到 返回-1
+         split(“切割符号”)//切割字符串，结果为arr/如果有两个连续的字符只切割一个会有空字符
+         toString()//转换为字符串
+    2.Number 
+    3.Boolean
+    点前面一定是对象，点后面一定是属性
+
+    2.Array 
+         length
+         toString()
+         indexOf()
+         slice()//不会改原数组//截取arr，含头不含尾 只有一个index的话就是从start截到末尾
+         join(”链接符“)//把数组拼接成字符串/不会改原数组
+         concat()//两个数组合并成一个数组
+         map(function(数组里的每一项，index，arr当前数组){})//对数组每一项进行处理，然后返回数组(不会更改长度)
+         every(function(item){})//检测数组是否都符合条件，返回值为false和true
+         some(function(){})//检测数组是否有值符合条件，返回true false
+         filter(function(item){})//返回那些是符合的
+         forEach(function(item){})//当并不想改变数据，只是需要数组里每个值都参与运算的话，
+         includes(“值”)//检测数组是否包含这个值/返回true false
+         
+         ----以下所有方法都可以修改原数组-----
+         push()//向数组结尾添加数据
+         unshift()//向数组开头添加数据
+         pop()//删除数组最后一个元素/返回值为删掉的对象
+         shift()//删除数组第一元素
+         splice(从哪一位开始删，删几个，要加的新值，要加的新值)//删除 替换 添加
+         reserse()//反转数组
+         sort()//排序 是按照编码排的，不是按普通大小
+
+    3.Math
+         round()四舍五入取整
+             var a=3.5
+             Math.round(a)
+         ceil()向上取整
+         floor()向下取整
+         abs()取绝对值//所有变为正数
+         min/max 取最大。最少
+             var a=-125
+             var b=Math.max(2,3,5,6,7,8,9)
+              var b=Math.max(...Array)
+             console.log(b)
+         random()取随机数 0-1之内的随机数
+             取任意min-max区间的随机数Math.floor(Math.random(max-min+1)+min)
+             
+    3.Date
+         日期对象直接做差值会得出间隔毫秒数
+             var date=new Date("2022-11-11 00:00:00")//Date()内置函数/构造新的date对象
+             var now=new Date()
+             console.log(date-now)
+         getFullYear()//拿到那一年 返回number
+         getMonth()//返回的0-11/加1修正
+         getDate()//返回1-31
+         getDay()//返回周几0-6/周日为0 //没有setDate()
+         getHour()//o-23
+         getMinutes()//0-59
+         getSeconds()//0-59
+         getMilliseconds()//0-999
+         getTime()//1970-1-1 至今的毫秒数//前后端交互的时候使用getTime来算日期，或者字符串
+         以上所有方法把get改成set就是设置时间
+             var a=newDate();
+             a.setFullYear(2027);//改成2027年
+    
+     4.Error
+         天花板为架构师//5年工作经验
+             var err=new Error()//创建error对象     
+                 console.error(er)//console.warn()
+         SyntaxError//语法错误，少用了什么标点符号。低级错误
+         ReferenceError //找不到对象
+         TypeError//类型错误 方法和调用对象没有对对应上
+     
+     4.Windows
+         parseInt()//可以取字符串里以整数开头的部分 “-714px”=>-714
+         parseFloat()//可以有小数 “-714px”=>-714
+
+    4.RegExp正则表达式: 定义字符串中字符出现的规则
+         写在双斜线中//
+         由若干个备选字符组成
+         备选字符写在[]中
+         一个[]只代表一个字符的规则
+         数量词 写在大括号中{num} 默认修复前面一位规则重复几次
+             {min,}前面的规则至少重复几遍
+             {min,max}前面的规则至少重复min遍,最多max
+             var reg=/[1]（[2][32675]）{9}/
+         预定文字符集
+             \d 所有的数字 
+             \w 所有的数字\字母\下划线 
+             . 任意字符
+             \s 代表空格
+         如果中括号中只有一个备选字符或者只有一个预定字符集，那么可以省略中括号
+         正则表达式对象.test(被检测的字符串) true/false
+         正则表达式是部分匹配，中间有一段是符合规则的就可以通过
+         在正则表达式开头加^ 代表以...打头，在结尾加$代表以...结尾
+         在备选字符内加[^1],除了1
+         有特殊含义的字符 但是想用备用字符的意思 用/转义
+         -为连续区间[0-9][a-z][A-Z]
+         特殊数量词
+             ？前面一位规则可有可无，最多一次 {0,1}
+             * 前面一位规则可有可无，最多不限制{0,}
+             + 前面一位规则至少重复1次，{1,}
+                 var phoneReg=/^1[3-9]\d{9}$/;
+                 var emailReg=/^\w+@\w+([-]\w+)*(\.\w+)+$/;
+                 var num=188888888
+             if(reg.test(num)){
+                alert("恭喜注册成功")
+             }else{
+                alert("你的手机号输入有误")
+             }
+-->
+函数
+<!--
+函数/方法： 封装一段执行专门任务的代码段
+        function 函数名（参数）{
+            你要做的事情
+         }
+         1.函数不调用不执行
+         2.函数调用 函数名字()
+         3.参数
+             1.形参：函数定义的时候
+             2.实参：函数调用的时候
+         4.函数提升，整体提升不止是变量声明
+              如果是变量定义的函数，变量只会提升命名
+         5.函数纯过程，没有结果/除非return
+         6.return：退出函数运行
+             如果在return后面跟一个值，在函数推出的同时，返回一个值
+             
+-->
+作用域 函数和变量
+<!-- 
+一个变量的可用范围 （scope）
+         全局作用域：在全局作用域内声明的变量叫全局变量
+         局部/函数作用域：在局部作用域声明的变量,局部可用全局变量
+               局部作用域在函数调用的时候创建，在函数调用结束摧毁
+closure:闭包
+          函数套函数，内部函数使用外部函数定义的局部变量
+             闭包优点：变量放在全局不安全，容易被篡改，闭包可以保护变量
+                 闭包例子
+                 function add(){
+                   var n=0;
+                   function fn(){
+                       return n++
+                   }
+                   return fn
+                 }
+                 var c=add()//全局变量c储存了fn
+                 console.log(c())
+                 console.log(c())
+                 console.log(c())
+                 console.log(c())
+             闭包缺点：性能问题，内存泄露/溢出
+             申明储存变量会消耗内存，闭包里声明的变量和全局变量一样无法释放
+                 js垃圾回收机制：自动运行，有用不是垃圾，没有用是垃圾
+-->
+语句
+<!-- 
+if else:
+     if("condition") {
+              //when condition is true
+         } else if ("secound condtion") {
+     
+         } else {
+     
+         }
+         if/else if: 同一个事情的对立面
+loop:
+     1.循环变量： 循环中做判断的量，一定向着循环退出的趋势去变化
+     2.循环条件： 保证循环继续运行
+     3.循环体： 每次循环要做的事
+
+     while loop
+         while(condition){
+            //when condition is true runthe code here
+         }
+     for loop
+         for(变量；循环条件；i++){
+            //run code when loop
+         }
+         关键字：
+             break:退出循环
+             continue:跳过该循环
+     for of//只能循环数组/类数组，一个数据结构只要部署了Symbol.iterator属性就可以循环
+         for(let item of arr){}
+         for (const [key, value] of Object.entries(object1)) {console.log(`${key}: ${value}`)}return the key and value of the obj
+             Object.entries(obj)//[[key,value],[key,value],[key,value]]
+             Object.keys(obj)// an arr made by all obj's key
+     for in
+         循环这个obj的key，如果是arr的话是角标
+         
+-->
+算法
+<!-- 
+冒泡排序 
+     把每个数和前面的比，如果比我大就掉个个，小的话就不懂
+     联系数组去重
+-->
+Dom
+<!--
+Dom:document object model
+     ECMAScript(js核心)+DOM+BOM
+         框架的出现让Dom 不再变成核心
+    属性名只有名字没有值，证明这个是boolean值，ex：disable
+    拿到所有样式的值，内部加外部
+         var cssStyle=document.defaultView.getComputedStyle(element,null)
+         var bottom=css.bottom//style里面button的值
+增
+     增加元素
+         1.创建元素 document.createElement("tagname")
+         2.将元素添加到页面中 parent.appendChild(child)
+         
+删
+     删内容//innerText=“” innerHTML=“”
+     删属性//removeAttribute("class")
+     删元素//父元素对象.removeChild("子元素对象")
+      
+改
+     改属性
+         通过对象的形式 //box.style.color="blue"
+         setAttribute("attributeName","abc")// box.setAttribute("class","boxes")
+         getAttribute("attributeName")
+     改内容
+         innerText//返回的是元素开始标签到结束标签之中的文本内容//赋值为修改
+         innerHTML//返回的是元素开始标签到结束标签之中的内容//赋值可以用“<div class="a">hello</div>”
+         
+查 查找元素
+     元素对象属性：所有写在元素标签开始之中的
+         class是一个关键字
+         var a=document.getElementById()//通过id找到元素
+             a.id="red"//即使之后更改id/getelementbyid找到的元素不会变，因为之前已经找到了   
+             a.className="abc"//因为不能和class类 重名
+     document.getElementById()//对象
+     document.getElementsByClass() //类似数组值可用[index]，有数组的外形没有数组的方法，因为class可以重名
+     document.querySelector(css选择器)//元素对象
+     document.querySelectorAll(css选择器)//类数组
+     document.getElementsByName()//类数组
+     document.getElementsByTagName(tagname)//类数组
+
+事件
+    元素对象.事件名=函数名
+     onClick
+     onmouseover
+     onmouseout
+     onmousemove
+     onkeydown//按下去的时候
+         search.onkeydown(function(e){
+            if(e.keyCode==13){
+                console.log("enter")
+            }
+         })//input中敲回车执行
+     onkeyup//松开时
+     onkeypress//正在按着时
+     onfocus()//获得焦点
+         search.onfocus=function(){
+            console.log("获得焦 点了")
+         }
+     onblur//失去焦点了
+     onchange//改变的时候
+     oninput//
+         search.oninput=function(){
+            console.log(search.value)
+         }
+-->
+flexbox
+<!--
+.App {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;//需要add height,不然align-item:center不生效
+}
+<div class="box">
+  <div></div>
+</div>
+
+grid
+.App {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  width: 200px;
+}
+.item {
+  background-color: black;
+  grid-column-start: 1;
+  grid-column-end: 5;
+  height: 30px;
+  color: beige;
+}
+
+-->
+this
+<!-- 
+this:代表一个对象，指向会变，
+     代表的是函数运行时所在的对象（谁调用了我这个函数，那么我函数中的this就指向谁）
+     console.log(this)//windows:最大的对象 
+-->
+定时器
+<!-- 
+     setTimeOut:让function自动运行的唯一方法,windows的内置对象//我们接触的第一个异步的程序
+             同步的程序一定先于异步执行
+             默认返回值为线程号
+                const 线程号=setInterval(function(){
+                    console.log("a")
+                },1000)
+                    function greeting(arg1, arg2){
+                         console.log(arg1,arg2)
+                    }
+                    setTimeout(greeting,1000,"Hi", "There");//最后一个第三四个peremeter会传参数传到greeting function里面
+//output: Hi There
+         setInterval(function,间隔毫秒数) //每隔一段时间干一件事
+         setTimeout(function,等待毫秒数)//等待一定时间干一件事
+        停止定时器
+         clearinterval(线程号)
+         clearTimeout(线程号)
+               function(){
+                clearInterval(线程号)
+                线程号=null //释放内存
+               }
+
+     debounce
+     throttle
+-->
+原型与继承
+<!-- 
+原型（prototype）：方法背后，专门保存由方法创建出来对象的共有属性
+     构造函数Constructor/对象模版：专门用来创建相同结构对象的专门方法/名字大写
+     　   function Student(name,age){
+     　　    this.name=name；
+     　　    this.age=age；
+     　　 }
+
+         调用构造函数，使用new关键字调用
+         　　 var ll=new Student("lilei",23)
+         　　 console.log(ll)
+    
+         内置构造函数
+         　　 Array Object Date//只有date不能自变量，所以优先使用Constractor RegExp
+     
+         共有属性：length
+             添加共有属性 Student.prototype.car="g63"
+         自有属性：属于对象实例自身的属性（不共享），自己后续添加的。/任何实例对象无法修改原型中的数据
+    
+     原型链：
+         原型：任何函数都有原型
+         隐式原型（__proto__）：任何对象都有隐式原型
+             任何对象的隐式原型指向创建该对象的构造函数的原型对象
+             ll.__proto__===Student.prototype保证了继承
+         Object 所有对象的父亲 Function 所有函数的父类 
+
+ 继承（Inheritance）：使用现有类型，创建出新的类型，新的类型中具有现有类型的属性和方法，也可以扩展出现有类型没有的属性和方法
+
+ 补充：
+     用来主动改变this指向
+         call 传参数 
+             funtion.call(obj,pere1,pere2,pere3)
+         apply 
+             function.apply(obj,[array,array])
+         bind 返回一个函数，需要主动调用，参数调用的时候放在括号里
+             var a=function.bind(obj)
+             a(pere1,pere2)
+
+     new关键字原码
+     手写
+     _new(constructor,perem1,perem2)
+     function _new(){
+     //create an object
+     const student={}
+     //get the constructor
+     const fn=[].shift.call(arguments)
+     //call function
+     student.__proto__=fn.prototype
+     fn.apply(student,arguments)
+     return student
+     }
+
+     instanceof:用于检测某个属性是否出现在某个实例的原型链上
+     子孙 instanceof 祖宗 ex: console.log(ll instanceof Object)//true or false
+     手写
+     function _instanceof(kid,parent){
+        //use Recursive function 
+        if(kid.__proto__){
+          //check if it is the ancester
+          if(kid.__proto__===parent.prototype){
+            return true
+          }else{
+             return _instanceof(kid.__proto__,parent)
+          }
+      }
+      //is not return false
+      return false
+    } 
+-->
+时间触发周期
+<!-- 
+eventcapturing(从外往里做标记)-eventbubbling(从里到外执行)
+         document.addEventListener("事件名"//onclick，函数，是否在捕获阶(eventCapturing)段触发//boolean)//通过这个可以一个元素绑定多个事件
+             事件处理函数=on+事件名 //onclick onblur
+eventdelegate:
+         在外层绑定里层div//应用场景:当元素添加发生在事件绑定之后(动态创建)
+事件对象event Object：事件发生时自动传入的第一个参数 
+     e.target:事件源对象
+     阻止冒泡: e.stopPropagation();
+         getDiv[i].onclick = function (e) {
+             console.log(e.target.className);
+             //阻止冒泡
+             e.stopPropagation();
+           };
+screen object:可以拿到用户屏幕尺寸
+history object: 在程序里跳转页面
+     history.back()
+location object:浏览器信息等
+     location.reload()
+     locaiton.href="域名"
+-->
+ajax
+<!-- 
+ajax：前端取数据 不需要刷新页面（局部刷新）的技术//前后端互动
+XMLHttpRequest
+     1.创建ajax核心对象
+     var xmlhttp=new XMLHttpRequest();
+     2.创建请求 请求方式（get/post）请求地址（后端服务器地址）是否异步 true
+     xmlhttp.open("get","http://www.baidu,com",true)
+     3.发送请求参数,怎么出传参数后端决定
+     //post
+     xmlhttp.send("user=99999&password=df")//key=value的字符串，中间以&连接
+     //get
+     xmlhttp.open("get","http://www.baidu,com?user=99999&password=df",true)//参数放在请求参数后面用？连接
+     xmlhttp.send(null)//形式不能省
+     4.接收响应
+         readyState 0(尚未初始化) 1（正在请求）2（请求完毕）3（正在响应）4（响应完毕）
+         status 请求状态码 200 404（not found）500(server error)找后台
+         xmlhttp.onreadystatechange=function(){
+              if(xmlhttp.readyState==4&&xmlhttp.status==200){
+            //接受数据
+                 let data=xmlhttp.responseText
+            }
+         }
+url:协议+域名+端口号+自定义路径名字
+https:www.google.com:3000
+跨域问题：安全性问题，浏览器的同源策略（浏览器与服务器才会产生跨域问题）//后端可以决定权限，可以设置ip白名单等
+     同源：协议 域名 端口号
+    1.请求代理：本地》本地〉远程服务器 不跨域
+    2.jsonp
+JSON:是存储和交换文本信息的愈发类似xml
+     JSON.parse()//把json格式字符串转换为引用数据类型
+     JSON.stringfy()//把数据变成json格式
+http status code
+     post 安全性稳定 没有参数数量限制 表单提交一般用post
+     get 的好处是快 简单
+-->
+Es6
+<!-- 
+ECMAscript+dom+bom 
+     变量声明
+        let：
+         没有变量提升
+         不允许重复声明
+         只在block scope有效//一个{}就是一个block 
+         暂时性死区（temporal dead zone）：在一个block scope里，如果有let申明一个变量,在该变量用let申明之前，都属于变量tmp的死区
+        const:
+         申明常量
+         无法re-declaration
+         如果是引用数据类型的话可以修改值，因为存的是指针、
+     变量的解构赋值
+         let [a,b,c]=[1,2,3]//左边存变量名 右边存值，只要两遍模式相同的话就是是对应是值
+     字符串的扩展
+         　``模版字符串支持换行，添加变量使用${变量}
+     函数的扩展
+         默认参数：
+            function fn(x=5，i=8){
+                //x默认值为5,i默认为8
+            }
+     箭头函数：
+         如果只有一个参数的情况下，默认参数的括号可以省略 
+         只return一个值，可以省略return及{}
+         箭头函数this指向：就是定义该函数时所在的作用域指向的对象，而不是使用时所在的作用域指向的对象。，在哪里出生的时候就指向谁
+             所以不能当作this函数
+             arrow functions don't have prototypes. They're designed to be lightweight, without some of the baggage that old-style functions have.
+             arrow function don't have the argument object
+     数组的扩展//适用字符串 Map Set
+         ...扩展运算符：把数组和类数组结构拆分程以逗号分隔的参数序列
+     对象的扩展
+         如果对象的属性值是变量，并且变量的名字和属性值痛吗，键值对可以省略为一个 let name="a";let obj={name}
+         对象的属性值是函数，可以省略:function
+     对象解构赋值
+         {key1,key2}=obj; console.log(key1)
+     Symbol:基本数据类型（类似于字符串）
+         代表的是一个独一无二的值
+         let a=Symbol("a")//symbol数据使用symbol函数来生成
+         应用，使用Symbol变为obj的属性名，这样属性名不会重复
+     Set:类似数组的数据结构，set里的数据都是独一无二的
+         let set=new Set(数组)
+         Set.add(value)//添加 Set.has(value)//return boolean
+     Map:类似对象的数据结构，属性名不限定类型//[[key,value],[key,value],[key,value]]
+         let newMap=new Map()
+         newMap.set(key,value)
+     async await
+         //函数累包含异步操作 加了async就是异步函数
+         //const fn=async()=>{}//async函数返回值为promise, return的值默认为async函数resolve的值
+         let p = new Promise((resolve, reject) => {
+           setTimeout(() => {
+             console.log(1);
+             resolve("end");
+           }, 1000);
+         });
+         const af = async () => {
+           const a = await p; //await后面加异步函数//强行把异步变为同步//如果await后面加promise，整个函数的值就是promise resolve的值
+           console.log(a);
+           // return a; //return的值默认为async函数resolve的值
+         };
+         af();
+     module
+         js文件和js文件中互相联系
+         export:导出的一定是一个完整的变量申明语句，如果导出多样{变量名，变量名，变量名}
+             export 中途改名字  {a as newname}
+         import {a} from "./a.js"//如果路径直接写名字，默认是从核心模块「node_modules」引入
+             import 中途改名字  {a as newname}
+             import {a},b from ""//默认导出不加大括号
+             import "./文件名"//不需要到处，直接引进比如说import "./style.css"
+         export default a 如果import不管import名字叫什么都是a// export default 1 === export {1 as default}
+     class类
+         地位在react地位在逐年降低//如果想当架构师必须会
+         构造函数的语法糖
+         import "./class html"
+-->
+Promise
+<!--
+：异步解决方案
+    目前为止的异步编程：setTimeout/ajax/callback
+      //resolve()   pending=>fulfilled
+      //reject()    pending=>rejected
+      let p = new Promise((resolve, reject) => {
+        //resolve:异步操作成功过之后 输出值
+        //reject：异步操作失败之后 输出值
+
+        //异步操作代码
+        setTimeout(() => {
+          console.log(1);
+          //resolve(); //可以传参数到 then的第一个参数里面
+          reject("error1");
+        }, 3000);
+      });
+
+      p.then(
+        () => {
+          //resolve处理函数
+          return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              console.log(2);
+              reject("error2");
+            }, 1500);
+          });
+        }
+        // ,
+        // (error) => {
+        //   //reject处理函数//只能处理上一层函数
+        //   console.log(error);
+        // }
+      ).catch((err) => {
+        console.log(err); //catch 可以拿到上面任何一个promise的错误//穿在reject()里面的参数，这样就不用在每一个then里面写第二个函数参数
+      });
+      //promiese对象的错误有冒泡性质会一直向后传递直到被捕获
+Promise.all([p1,p2,p3]).then...//返回值为数组
+Promise.race([p1,p2,p3]).then...//看谁快就执行谁
+-->
