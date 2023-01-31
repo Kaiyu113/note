@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //es5继承：先实例后继承
+      //es6继承：先继承后实例
+      //super()父类构造函数
+
+      //es5
+      //   function Point(x, y) {
+      //     this.x = x;
+      //     this.y = y;
+      //   }
+      //   Point.prototype.toString = function () {
+      //     return "(" + this.x + "," + this.y + ")";
+      //   };
+
+      //在类中定义的所有方法都默认定义在原型上
+      //类中定义方法不加function不加逗号
+
+      class Student {
+        //在构造方法里面写了constructor
+        constructor(name, age) {
+          this.name = name;
+          this.age = age;
+        }
+        //Point.Prototype.toString
+        toString() {
+          return "(" + this.name + "," + this.age + ")";
+        }
+        a() {
+          console.log("我是父类的方法");
+          console.log(this.age);
+        }
+      }
+      //console.log(Point===Point.prototype.constructor)
+      //只要想实例化对象就自动调用class Point里面的constructor
+      const a = new Student(1, 2);
+      console.log(a);
+      //class里面的继承=>子类
+      class Girl extends Student {
+        constructor(name, age, sex) {
+          super(name, age); //super里需要实参
+          this.sex = sex;
+        }
+      }
+      let b = new Girl("ll", 13, "girl");
+      //console.log(b);
+    </script>
+  </body>
+</html>

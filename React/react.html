@@ -1,0 +1,231 @@
+用于构建用户界面的js库
+<!-- 
+    debugger
+         to debugger
+    dfa 
+    virtual dom is a object,they have unique key for every element
+        it more lightweight than real dom
+    JSX
+         ：javascript XML
+             XML一种传输方法
+         virtual dom 引入js expression时使用{}
+         class=>className
+         style="color:white;"=>style={{color:"white"}}
+         root elemtn is unique
+         标签首字母
+             小写：转化为html 同名元素，如果没有就报错
+             大写：react渲染对应component,if the component is not real, you can.
+    react事件处理
+         1.onXxx
+             用的不是原生dom事件，为了更好的兼容性
+             react中事件是通过eventdelegent，委托给最外层的元素
+         2.通过event.target得到发生事件的dom element object//事件元对象》ref
+-->
+Dom Diffing algorithm
+<!-- 
+    虚拟dom中key的作用：
+         key是虚拟dom对象的标识，在更新显示key时key起着极其重要的作用
+         当state中的数据发生变化的时候，新旧虚拟dom开始进行比较
+             a在旧的虚拟dom中找到了与新虚拟dom相同的key
+                 如果内容没变，直接使用之前的real dom
+                 如果变了，生成新的realdom
+             b没找到相同的key
+                 创建新的真实dom，render到browser
+        所以如果用index放在key里可能出现的问题
+             会导致效率问题，index变了之后key也会有变化会使其全部重新render
+             如果有输入内dom，会产生错误的dom更新
+        开发中使用每条数据的唯一标识作为key
+             如果没有，去找后端扯皮
+
+-->
+State
+<!-- 
+    State在哪里,操作state的方法就在哪里 ：状态提升
+    父传子通过props
+    子传父通过props函数
+    注意defaultchecked和checked区别
+-->
+props
+<!-- 
+    props is immutable,is read only
+    props的批量传递
+    
+         <Person {...p}/>
+    对props进行type限制
+        Person.propTypes={
+            name: PropTypes.string.isRequired,//必传递isRequired
+            age: PropTypes.number,
+            address: PropTypes.object,
+            friends: PropTypes.array,
+        }
+    设置props默认值
+        Person.defaultProps={
+            age: 0,//age默认值为0
+        }
+    props简写方式
+        从class外部转到内部
+        class Person extendsn React.Csomponent{
+            static propTypes={//add perpotie to Person class
+                name: PropTypes.string.isRequired,//必传递isRequired
+            }
+        }
+ -->
+refs
+<!-- 
+    字符串形式ref//目前不被官方推荐使用,有效率问题
+        class App extends React.Component {
+          showData = () => {
+            const { input1 } = this.refs;
+            console.log(input1.value);
+          };
+        
+          render() {
+            return (
+              <div>
+                <input ref="input1" type="text" placeholder="click to show data" />
+                <button onClick={this.showData}>click me to show left data</button>
+              </div>
+            );
+          }
+        }
+    回调形式ref
+        内联：（一般项目中直接使用内联回调）
+             callback中执行次数的问题： 通过绑定到class上可以避免
+             如果是以内联的方法写的话，每次渲染会被执行两遍，因为每次都会创建新的函数实例 ，所以会清空旧的设置新的（第一次），然后再传一次（第二次）
+                showData = () => {
+                    const { input } = this;
+                  console.log(input.value);
+                };
+
+                  <input
+                 ref={(current) => (this.input = current)}
+                 type="text"
+                  placeholder="click to show data"
+                />
+                 <button onClick={this.showData}>click me to show left data</button>
+    createRef
+        myRef = React.createRef(); //调用后返回一个容器，该容器可以储存被ref所标识的节点,只能存一个
+        console.log(this.myRef.current.value)   
+-->
+constructor
+<!-- 
+    构造器是否接受props，是否传递super，取决于：是否希望在构造器中通过this访问props
+-->
+control,uncontrol
+<!-- 
+     uncontrol:页面中所有输入类dom，都是现用现取（使用useRef）
+     control:页面中所有输入类dom，使用onchange放到dom里去，等要用的时候在state里取出//优势在于可以省略ref，因为ref会导致效率问题
+-->
+HOC
+<!-- 
+    HOC 
+         高阶函数
+             1.接收的参数是一个函数
+             2.调用的返回值是一个函数
+             常见的高阶函数：Promise,setTimeout,arr.map()
+        
+         函数的柯里化（currying）：
+             通过函数调用继续返回函数的方式，实现多次接受参数最后统一处理的函数编码形式
+
+               setFormData = (type) => {
+                     return (e) => {
+                     this.setState({ [type]: e.target.value });
+                };
+                <button onChange={this.setFormData("password")}/>
+  };
+-->
+lifeCycle
+<!-- 
+16版本：
+         什么时候调lifecycle hook和写的顺序无关
+    初始化阶段:由ReactDOM.render()触发--初次渲染
+         constructor(){
+
+         }
+         componentWillMount(){
+             组件将要挂载
+        }
+         render(){
+
+        }
+         componentDidMount(){ //常用，一般在这个hook中做初始化的事情，ex：开定时器，发送网络请求，订阅消息，开启监听，发送ajax 请求
+            组件已经挂载
+        }
+    更新阶段:由组建内部setState() || 父组件重新render触发
+         componentWillReceiveProps(props){
+            //初始化不会跑，第二次会开始跑
+            console.log(props)
+        }
+         shouldComponentUpdate(){
+            return true or false
+            //阀门：决定这个当componentupdate的时候是否能render
+        }
+         componentWillUpdate(){
+
+         }
+         render(){ //必须
+
+         }
+         componentDidUpdate(){
+
+         }
+    卸载组件
+         componentWillUnmount(){ //常用，一般在这个hook中做收尾的事情，ex：关闭定时器，取消订阅消息
+             组件挂载完毕
+        }
+17版本：
+        需要加上UNSAFE_前缀,只有这三个需要加前缀（以后可能被弃用）
+         componentWillMount
+         componentWillReceiveProps
+         componentWillUpdate
+     初始化阶段:由ReactDOM.render()触发--初次渲染
+         constructor(){
+
+         }
+         static getDerivedStateFromProps(props){//新的，不常用。如果state的值任何时候都取决于props，可以使用
+            //缺点：会让代码复杂，组件难以维护
+            console.log(props)//可以收到props参数
+            return {count:109}//可以直接setState,初始化以这个为主，而且永远改不了
+            return props//把props当state用
+        }
+         render(){
+
+        }
+         componentDidMount(){ //常用，一般在这个hook中做初始化的事情，ex：开定时器，发送网络请求，订阅消息
+            组件已经挂载
+        }
+    更新阶段:由组建内部setState() || 父组件重新render触发
+         getDerivedStateFromProps(props){
+            return props
+        }
+         shouldComponentUpdate(){
+            return true or false
+            //阀门：决定这个当componentupdate的时候是否能render
+        }
+         render(){ //必须
+
+         }
+         getSnapshotBeforeUpdate(preprops,prestate){ //新的,不常用
+            return snapshotValue//return的值会传到componentDidUpdate的第三个parameter上
+
+         }
+         componentDidUpdate(preprops,prestate,snapshotValue){
+            
+         }
+    卸载组件
+         componentWillUnmount(){ //常用，一般在这个hook中做收尾的事情，ex：关闭定时器，取消订阅消息
+             组件挂载完毕
+        } 
+-->
+脚手架
+<!-- 
+    public：静态资源文件
+         html:%PUBLIC_URI%代表public文件夹的路径｜｜manifest.json如果使用应用加壳，添加配置的文件｜｜robots.txt 爬虫协议规则文件 （让敌人面向监狱编程）
+    import React,{component} from "react"//两种export形式出现的两种方法
+    style modulo
+-->
+流程
+<!-- 
+1.模块化
+2.静态化流程 
+-->
